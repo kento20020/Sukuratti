@@ -260,11 +260,14 @@
     scratchNode = { src, g, fl };
   }
 
+  // 削る音の大きさ（1 = 元の音量。0.5 で半分）
+  const SCRATCH_VOLUME = 0.5;
+
   // intensity: 0〜1（指の速さ）
   function scratchSet(intensity) {
     if (!scratchNode) return;
     const now = ctx.currentTime;
-    const v = Math.min(0.32, 0.03 + intensity * 0.3);
+    const v = Math.min(0.32, 0.03 + intensity * 0.3) * SCRATCH_VOLUME;
     scratchNode.g.gain.cancelScheduledValues(now);
     scratchNode.g.gain.setTargetAtTime(v, now, 0.015);
     scratchNode.fl.frequency.setTargetAtTime(2000 + intensity * 2500, now, 0.03);
